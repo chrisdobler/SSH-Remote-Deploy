@@ -11,6 +11,9 @@ echo "User Name: $1"
 echo "Friendly Name: $3"
 var=`ssh-keygen -t rsa -f ~/.ssh/$2_rsa`
 echo "$var"
+if ! type "sshpass" > /dev/null; then
+	yum install sshpass
+fi
 
 echo ""
 echo "Creating .ssh directory on remote server"
