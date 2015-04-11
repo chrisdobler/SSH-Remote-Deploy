@@ -9,8 +9,8 @@
 echo "Generating ssh key for $2"
 echo "User Name: $1"
 echo "Friendly Name: $3"
-var=`ssh-keygen -t rsa -f ~/.ssh/$2_rsa`
-echo "$var"
+mkdir ~/.ssh
+ssh-keygen -t rsa -f ~/.ssh/$2_rsa
 if ! type "sshpass" > /dev/null; then
 	yum install sshpass
 fi
