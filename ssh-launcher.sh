@@ -3,7 +3,20 @@
 # SSH-LAUNCHER by Christopher Dobler 2015
 #
 # USAGE:  
-#   ssh-launcher user host friendly remote@host
+#   ssh-launcher user host password connecting_ssh friendly
+
+if ! [ -z "$2" ]; then
+	remote_host_default=$2
+fi
+if ! [ -z "$1" ]; then
+	remote_user_default=$1
+fi
+if ! [ -z "$3" ]; then
+	remote_pass_default=$3
+fi
+if ! [ -z "$4" ]; then
+	connecting_ssh_default=$4
+fi
 
 if ! type "sshpass" > /dev/null; then
   # install sshpass here
