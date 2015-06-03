@@ -5,6 +5,12 @@
 # USAGE:  
 #   ssh-launcher user host password connecting_ssh friendly
 
+connecting_ssh_default="root@localhost"
+remote_host_default="server.com"
+remote_user_default="root"
+remote_pass_default=""
+reply_default="Y"
+
 if ! [ -z "$2" ]; then
 	remote_host_default=$2
 fi
