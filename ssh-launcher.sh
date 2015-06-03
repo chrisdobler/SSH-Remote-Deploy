@@ -5,6 +5,19 @@
 # USAGE:  
 #   ssh-launcher user host friendly remote@host
 
+if ! type "sshpass" > /dev/null; then
+  # install sshpass here
+  if type "yum" > /dev/null; then
+	  yum install sshpass
+	  exit
+	fi
+  if type "apt-get" > /dev/null; then
+	  apt-get install sshpass
+	  exit
+	fi
+  exit
+fi
+
 read -p "Enter the connecting user and host (ie. root@localhost): " connecting_ssh
 echo
 
