@@ -12,7 +12,15 @@ echo "Friendly Name: $3"
 mkdir ~/.ssh
 ssh-keygen -t rsa -f ~/.ssh/$2_rsa
 if ! type "sshpass" > /dev/null; then
-	yum install sshpass
+  if type "yum" > /dev/null; then
+	  yum install sshpass
+	  exit
+	fi
+  if type "apt-get" > /dev/null; then
+	  apt-get install sshpass
+	  exit
+	fi
+  exit
 fi
 
 echo ""
