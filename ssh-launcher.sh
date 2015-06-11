@@ -5,6 +5,7 @@
 # USAGE:  
 #   ssh-launcher user host password connecting_ssh friendly
 
+connecting_ssh_friendly_default="friendlyname"
 connecting_ssh_default="root@localhost"
 remote_host_default="server.com"
 remote_user_default="root"
@@ -22,6 +23,9 @@ if ! [ -z "$3" ]; then
 fi
 if ! [ -z "$4" ]; then
 	connecting_ssh_default=$4
+fi
+if ! [ -z "$5" ]; then
+	connecting_ssh_friendly_default=$5
 fi
 
 if ! type "sshpass" > /dev/null; then
@@ -57,6 +61,5 @@ then
 	'"
 fi
 
-
-# ssh "$connecting_ssh" 'bash -s' < ~/talents/SSH-Remote-Deploy/ssh-setup.sh $1 $2 $3
+ssh "$connecting_ssh" 'bash -s' < ~/talents/SSH-Remote-Deploy/ssh-setup.sh $remote_user $remote_host $connecting_ssh_friendly_default $remote_password
 
