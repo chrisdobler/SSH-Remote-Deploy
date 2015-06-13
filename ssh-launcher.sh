@@ -41,20 +41,24 @@ if ! type "sshpass" > /dev/null; then
   exit
 fi
 
-read -p "Enter the connecting user and host (ie. root@localhost): " connecting_ssh
+read -p "Enter the connecting user and host [$connecting_ssh_default]: " connecting_ssh
+connecting_ssh=${connecting_ssh:-$connecting_ssh_default}
 echo
 
-read -p "Enter the remote host name (ie. remotehost.com): " remote_host
-read -p "Enter the user name for the host '$remote_host': " remote_user
-read -p "Enter the password for the remote user '$remote_user@$remote_host': " remote_password
-read -p "does this user exist already? " -n 1 -r
+read -p "Enter the remote host name [$remote_host_default]: " remote_host
+remote_host=${remote_host:-$remote_host_default}
+read -p "Enter the user name for the host '$remote_host' [$remote_user_default]: " remote_user
+remote_user=${remote_user:-$remote_user_default}
+read -p "Enter the password for the remote user '$remote_user@$remote_host' [$remote_pass_default]: " remote_password
+remote_password=${remote_password:-$remote_pass_default}
+read -p "does this user exist already? Y/N []" -n 1 -r
 echo    # (optional) move to a new line
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
 	echo
     read -p "Enter the admin user for the remote host: " remote_admin_user
     read -p "Enter the admin password for the remote user '$remote_admin_user': " remote_admin_password
-	sshpass -p$remote_admin_password ssh -o StrictHostKeyChecking=no "$remote_admin_user@$remote_host" bash -c "'
+		sshpass -p$remote_admin_password ssh -o StrictHostKeyChecking=no "$remote_admin_user@$remote_host" bash -c "'
 		useradd -p$remote_password $remote_user
 		echo \"$remote_user ALL=(ALL:ALL) ALL\" | (EDITOR=\"tee -a\" visudo)
 		exit
