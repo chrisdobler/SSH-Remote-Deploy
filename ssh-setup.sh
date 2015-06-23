@@ -3,7 +3,7 @@
 # SSH-SETUP by Christopher Dobler 2015
 #
 # USAGE:  
-#   ssh-setup user host friendly
+#   ssh-setup user host friendly password
 
 #create ssh key
 echo "Generating ssh key for $2"
@@ -25,7 +25,10 @@ fi
 
 echo ""
 echo "Creating .ssh directory on remote server"
-echo `ssh $1@$2 "mkdir ~/.ssh;"`
+export SSHPASS="$4"
+sshpass -e ssh -oBatchMode=no "$1@$2" bash -c "'
+	mkdir ~/.ssh
+	'"
 
 echo ""
 echo "Inserting new key into remote server"
