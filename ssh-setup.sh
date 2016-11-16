@@ -10,29 +10,35 @@ echo "Generating ssh key for $2"
 echo "User Name: $1"
 echo "Friendly Name: $3"
 mkdir ~/.ssh
-ssh-keygen -t rsa -f ~/.ssh/$2_rsa
+ssh-keygen -t rsa -f ~/.ssh/$2_rsa -N ''
+
+#//////////////////create user
+
 if ! type "sshpass" > /dev/null; then
+	echo "sshpass not detected. Attempting to install.."
   if type "yum" > /dev/null; then
+  	echo "RHEL/CentOS OS Detected"
 	  yum install sshpass
-	  exit
 	fi
   if type "apt-get" > /dev/null; then
-	  apt-get install sshpass
-	  exit
+  	echo "Ubuntu/Deb OS Detected"
+	  sudo apt-get install sshpass
 	fi
-  exit
 fi
 
 echo ""
 echo "Creating .ssh directory on remote server"
+# ssh "$1@$2" -p$4 bash -c "'
 export SSHPASS="$4"
 sshpass -e ssh -oBatchMode=no "$1@$2" bash -c "'
 	mkdir ~/.ssh
 	'"
+touch ~/.ssh/config
+touch ~/.aliases
 
 echo ""
 echo "Inserting new key into remote server"
-echo `cat ~/.ssh/$2_rsa.pub | ssh $1@$2 "cat >> ~/.ssh/authorized_keys"`
+echo `cat ~/.ssh/$2_rsa.pub | sshpass -e ssh -o BatchMode=no $1@$2 "cat >> ~/.ssh/authorized_keys"`
 
 echo ""
 echo "Adding quick access alias to new remote"
